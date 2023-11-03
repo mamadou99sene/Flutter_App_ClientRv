@@ -16,7 +16,7 @@ class loginPage extends StatelessWidget {
       create: (context) => ProviderCovid(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Login",
             style: TextStyle(
                 fontSize: 30,
@@ -27,7 +27,7 @@ class loginPage extends StatelessWidget {
         ),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: TextFormField(
                 controller: controllerEmail,
                 onTap: () {},
@@ -40,7 +40,7 @@ class loginPage extends StatelessWidget {
                             color: Colors.red))),
               )),
           Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Consumer<ProviderCovid>(
                 builder: (context, value, child) {
                   return TextFormField(
@@ -57,7 +57,7 @@ class loginPage extends StatelessWidget {
                             icon: value.icon),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1,
                               style: BorderStyle.solid,
                               color: Colors.red,
@@ -66,21 +66,21 @@ class loginPage extends StatelessWidget {
                 },
               )),
           Container(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 50),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
                 ),
                 onPressed: () {
-                  print("Email: ${controllerEmail.text}");
-                  print("Password:${controllerPassword.text}");
+                  //print("Email: ${controllerEmail.text}");
+                  //print("Password:${controllerPassword.text}");
                   email = controllerEmail.text;
                   password = controllerPassword.text;
                   if (email.trim() == "sene" && password.trim() == "momo") {
                     Navigator.pushNamed(context, "/home");
                   }
                 },
-                child: Text(
+                child: const Text(
                   "Connexion",
                   style: TextStyle(
                       fontSize: 30,
