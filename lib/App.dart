@@ -13,12 +13,22 @@ class App extends StatelessWidget {
         create: (context) => ProviderCovid(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              "Bienvenu(e)",
-              style: TextStyle(
-                  fontSize: 30,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Bienvenu(e)",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal),
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.logout))
+              ],
             ),
             backgroundColor: Colors.red[400],
             elevation: 0,
@@ -26,6 +36,31 @@ class App extends StatelessWidget {
             titleTextStyle: TextStyle(decoration: TextDecoration.underline),
           ),
           drawer: MyDrawer(),
+          body: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: 20,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "data",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      CircleAvatar(
+                        child: Text(("12")),
+                      )
+                    ],
+                  ),
+                );
+              }),
         ));
   }
 }
