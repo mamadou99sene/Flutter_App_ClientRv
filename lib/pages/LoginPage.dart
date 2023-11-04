@@ -32,12 +32,23 @@ class loginPage extends StatelessWidget {
                 controller: controllerEmail,
                 onTap: () {},
                 decoration: InputDecoration(
+                    hintText: "Your email",
+                    hintStyle: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                    ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: const BorderSide(
                             width: 1,
                             style: BorderStyle.solid,
                             color: Colors.red))),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "please enter your email";
+                  }
+                  return null;
+                },
               )),
           Container(
               padding: const EdgeInsets.all(10),
@@ -47,6 +58,11 @@ class loginPage extends StatelessWidget {
                     controller: controllerPassword,
                     obscureText: value.visibility,
                     decoration: InputDecoration(
+                        hintText: "Your password",
+                        hintStyle: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                        ),
                         suffixIcon: IconButton(
                             onPressed: () {
                               Provider.of<ProviderCovid>(context, listen: false)
@@ -66,27 +82,34 @@ class loginPage extends StatelessWidget {
                 },
               )),
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                ),
-                onPressed: () {
-                  //print("Email: ${controllerEmail.text}");
-                  //print("Password:${controllerPassword.text}");
-                  email = controllerEmail.text;
-                  password = controllerPassword.text;
-                  if (email.trim() == "sene" && password.trim() == "momo") {
-                    Navigator.pushNamed(context, "/home");
-                  }
-                },
-                child: const Text(
-                  "Connexion",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal),
-                )),
+            padding: EdgeInsets.all(5),
+            child: SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ))),
+                  onPressed: () {
+                    //print("Email: ${controllerEmail.text}");
+                    //print("Password:${controllerPassword.text}");
+
+                    email = controllerEmail.text;
+                    password = controllerPassword.text;
+                    if (email.trim() == "sene" && password.trim() == "momo") {
+                      Navigator.pushNamed(context, "/home");
+                    }
+                  },
+                  child: const Text(
+                    "Connexion",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal),
+                  )),
+            ),
           )
         ]),
       ),
