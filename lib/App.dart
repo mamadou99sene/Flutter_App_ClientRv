@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:client_covid/widgets/MyDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
@@ -36,31 +40,43 @@ class App extends StatelessWidget {
             titleTextStyle: TextStyle(decoration: TextDecoration.underline),
           ),
           drawer: MyDrawer(),
-          body: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "data",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      CircleAvatar(
-                        child: Text(("12")),
-                      )
-                    ],
-                  ),
+          body: FutureBuilder(
+            future: ProviderCovid().getStructures(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SpinKitWave(
+                  color: Colors.red,
                 );
-              }),
+              } else {
+                List<StructureDeSante>? list = snapshot.data;
+                return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: 20,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "data",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            CircleAvatar(
+                              child: Text(("12")),
+                            )
+                          ],
+                        ),
+                      );
+                    });
+              }
+            },
+          ),
         ));
   }
 }
