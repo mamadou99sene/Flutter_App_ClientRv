@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
-
+  String prenom;
+  String nom;
+  MyDrawer({
+    required this.prenom,
+    required this.nom,
+  });
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,7 +27,7 @@ class MyDrawer extends StatelessWidget {
                   radius: 50,
                 ),
                 Text(
-                  "Prenom Nom",
+                  "$prenom $nom",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic,
