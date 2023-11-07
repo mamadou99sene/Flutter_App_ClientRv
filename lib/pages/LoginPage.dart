@@ -1,3 +1,5 @@
+import 'package:client_covid/App.dart';
+import 'package:client_covid/models/Utilisateurs.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -92,14 +94,19 @@ class loginPage extends StatelessWidget {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ))),
-                  onPressed: () {
-                    //print("Email: ${controllerEmail.text}");
-                    //print("Password:${controllerPassword.text}");
-
+                  onPressed: () async {
                     email = controllerEmail.text;
                     password = controllerPassword.text;
-                    if (email.trim() == "sene" && password.trim() == "momo") {
-                      Navigator.pushNamed(context, "/home");
+                    Utilisateur? utilisateur =
+                        await ProviderCovid().getUtilisateurs(email, password);
+                    if (utilisateur != null) {
+                      String prenom = utilisateur.prenom;
+                      String nom = utilisateur.nom;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  App(prenom: prenom, nom: nom)));
                     }
                   },
                   child: const Text(
