@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
       //home: App(),
       routes: {
         "/": (context) => loginPage(),
-        "/home": (context) => App(),
+        "/home": (context) => App(prenom: "prenom", nom: "nom"),
       },
       initialRoute: "/",
       theme: ThemeData(
