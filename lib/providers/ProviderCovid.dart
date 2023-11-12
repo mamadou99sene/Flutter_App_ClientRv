@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/models/StructureXML.dart';
 import 'package:client_covid/models/Utilisateurs.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
@@ -35,7 +33,7 @@ class ProviderCovid extends ChangeNotifier {
         "http://192.168.43.214:8080/REST_COVID_WEB_SERVICE/rs/structures";
     http.Response response = await http.get(
       Uri.parse(url),
-      headers: {"Accept": "application.xml"},
+      headers: {"Accept": "application/xml"},
     );
     if (response.statusCode == 200) {
       print("cible atteint");
