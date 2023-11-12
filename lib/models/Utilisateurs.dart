@@ -12,4 +12,23 @@ class Utilisateur {
       required this.email,
       required this.phone,
       required this.password});
+  Map<String, dynamic> toJson() {
+    return {
+      "idUtilisateur": idUtilisateur,
+      "prenom": prenom,
+      "nom": nom,
+      "email": email,
+      "phone": phone,
+      "password": password
+    };
+  }
+
+  Utilisateur.fromJson(dynamic jsonData) {
+    idUtilisateur = jsonData["idUtilisateur"];
+    prenom = jsonData["prenom"];
+    nom = jsonData["nom"];
+    email = jsonData["email"];
+    phone = jsonData["phone"];
+    password = jsonData["password"];
+  }
 }
