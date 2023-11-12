@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/models/StructureXML.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
+import 'package:client_covid/widgets/InscriptionButton.dart';
+import 'package:client_covid/widgets/MyButtonStyle.dart';
 import 'package:client_covid/widgets/MyDrawer.dart';
+import 'package:client_covid/widgets/MyItemGesture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,6 +22,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //this.utilisateur = ModalRoute.of(context).settings.arguments;
     return ChangeNotifierProvider(
         create: (context) => ProviderCovid(),
         child: Scaffold(
@@ -27,7 +31,7 @@ class App extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Bienvenu(e)",
+                  "Bienvenue",
                   style: TextStyle(
                       fontSize: 30,
                       fontStyle: FontStyle.normal,
@@ -66,32 +70,112 @@ class App extends StatelessWidget {
                 );
               } else if (snapshot.hasData) {
                 print("OK");
-                List<StructureXML>? list = snapshot.data;
-                return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: (list == null ? 0 : list.length),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 50,
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "${list![index].email}",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                List<StructureXML>? structures = snapshot.data;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      height: 150,
+                      margin: EdgeInsets.all(5),
+                      color: Color.fromARGB(255, 251, 236, 237),
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              (structures == null ? 0 : structures.length),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: 150,
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(5),
+                              color: Colors.red,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${structures![index].capacite} places",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  MyButtonStyle(
+                                      text: structures![index].localisation,
+                                      pressed: () {})
+                                ],
                               ),
-                            ),
-                            CircleAvatar(
-                              child: Text(list[index].capacite.toString()),
-                            )
-                          ],
+                            ); /*ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        "${list![index].email}",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    child: Text(list[index].capacite.toString()),
+                                  )
+                                ],
+                              ),
+                            );*/
+                          }),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Consulter nos fonctionnalités",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      );
-                    });
+                        Icon(
+                          Icons.directions,
+                          color: Colors.red,
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        MyItemGesture(
+                            textItem: "Nos Structures", itemPressed: () {}),
+                        MyItemGesture(
+                            textItem: "Mes rendez vous", itemPressed: () {})
+                      ],
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: InscriptionButton(
+                            child: Text(
+                              "Prendre un rendez vous",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ))),
+                            pressed: () {}),
+                      ),
+                    )
+                  ],
+                );
               } else {
                 return Container();
               }
