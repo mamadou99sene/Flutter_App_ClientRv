@@ -1,5 +1,6 @@
 import 'package:client_covid/App.dart';
 import 'package:client_covid/models/Utilisateurs.dart';
+import 'package:client_covid/pages/Inscription.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class loginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController controllerEmail = TextEditingController();
     TextEditingController controllerPassword = TextEditingController();
+    Utilisateur utilisateur;
     String email = "";
     String password = "";
     return ChangeNotifierProvider(
@@ -31,6 +33,8 @@ class loginPage extends StatelessWidget {
           Container(
               padding: const EdgeInsets.all(10),
               child: TextFormField(
+                textAlign: TextAlign.center,
+                autofocus: true,
                 controller: controllerEmail,
                 onTap: () {},
                 decoration: InputDecoration(
@@ -57,6 +61,7 @@ class loginPage extends StatelessWidget {
               child: Consumer<ProviderCovid>(
                 builder: (context, value, child) {
                   return TextFormField(
+                    textAlign: TextAlign.center,
                     controller: controllerPassword,
                     obscureText: value.visibility,
                     decoration: InputDecoration(
@@ -97,8 +102,8 @@ class loginPage extends StatelessWidget {
                   onPressed: () async {
                     email = controllerEmail.text;
                     password = controllerPassword.text;
-                    Utilisateur? utilisateur =
-                        await ProviderCovid().getUtilisateurs(email, password);
+                    utilisateur = (await ProviderCovid()
+                        .getUtilisateurs(email, password))!;
                     if (utilisateur != null) {
                       String prenom = utilisateur.prenom;
                       String nom = utilisateur.nom;
@@ -107,6 +112,8 @@ class loginPage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) =>
                                   App(prenom: prenom, nom: nom)));
+                      /* Navigator.pushNamed(context, "/home",
+                          arguments: utilisa eur);*/
                     }
                   },
                   child: const Text(
@@ -117,6 +124,30 @@ class loginPage extends StatelessWidget {
                         fontWeight: FontWeight.normal),
                   )),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Vous n'avez pas encore de compte ? ",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Inscription(),
+                        ));
+                  },
+                  child: Text(
+                    "S'inscrire ",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.italic,
+                        decoration: TextDecoration.underline),
+                  ))
+            ],
           )
         ]),
       ),
