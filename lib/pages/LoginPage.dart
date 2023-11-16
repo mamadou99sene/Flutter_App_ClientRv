@@ -119,9 +119,9 @@ class loginPage extends StatelessWidget {
                   child: const Text(
                     "Connexion",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal),
+                        fontWeight: FontWeight.w500),
                   )),
             ),
           ),
@@ -134,6 +134,7 @@ class loginPage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
