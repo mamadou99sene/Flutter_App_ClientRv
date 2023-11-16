@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:xml/xml.dart';
 
 class StructureXML {
@@ -25,5 +27,16 @@ class StructureXML {
     telephone = xmlData["telephone"];
     email = xmlData["email"];
     typeTest = xmlData["typetest"];*/
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "idStructuresante": idStructure,
+      "localisation": localisation,
+      "capacite": capacite,
+      "typeTraitement": typeTraitement,
+      "email": email,
+      "typetest": typeTest,
+      "telephone": telephone
+    };
   }
 }
