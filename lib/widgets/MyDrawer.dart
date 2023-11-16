@@ -1,3 +1,4 @@
+import 'package:client_covid/pages/StructuresPage.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -29,7 +30,7 @@ class MyDrawer extends StatelessWidget {
                 Text(
                   "$prenom $nom",
                   style: TextStyle(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.italic,
                       color: Colors.white),
                 )
@@ -81,6 +82,8 @@ class MyDrawer extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => StructuresPage()));
           },
           leading: Icon(
             Icons.local_hospital,

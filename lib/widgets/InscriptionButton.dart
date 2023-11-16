@@ -16,10 +16,10 @@ class InscriptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(3),
       child: SizedBox(
         width: double.infinity,
-        height: 52,
+        height: 50,
         child: ElevatedButton(style: style, onPressed: pressed, child: child),
       ),
     );

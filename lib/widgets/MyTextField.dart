@@ -19,7 +19,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: EdgeInsets.all(2),
       child: TextField(
           controller: mycontroller,
           obscureText: obscure,

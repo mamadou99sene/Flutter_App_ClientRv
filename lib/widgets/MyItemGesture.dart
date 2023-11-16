@@ -9,7 +9,7 @@ class MyItemGesture extends StatelessWidget {
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.all(10),
-        width: 170,
+        width: 160,
         height: 200,
         color: Colors.red,
         child: ElevatedButton(
