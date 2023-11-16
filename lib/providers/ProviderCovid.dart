@@ -44,7 +44,6 @@ class ProviderCovid extends ChangeNotifier {
     for (var s in responseJson["data"]) {
       listStructures.add(StructureDeSante.fromJson(s));
     }
-    print(listStructures);
     return listStructures;
   }
 
@@ -74,7 +73,6 @@ class ProviderCovid extends ChangeNotifier {
           typeTest: typetest,
           telephone: telephone);
       listStructuresXML.add(structureXML);
-      print(listStructuresXML.length);
     }
     return listStructuresXML;
   }
