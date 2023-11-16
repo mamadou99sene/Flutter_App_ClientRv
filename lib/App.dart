@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/models/StructureXML.dart';
+import 'package:client_covid/pages/StructuresPage.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:client_covid/widgets/InscriptionButton.dart';
 import 'package:client_covid/widgets/MyButtonStyle.dart';
@@ -100,7 +101,11 @@ class App extends StatelessWidget {
                                   ),
                                   MyButtonStyle(
                                       text: structures![index].localisation,
-                                      pressed: () {})
+                                      pressed: () {
+                                        Navigator.pushNamed(
+                                            context, "/rendezvous",
+                                            arguments: structures[index]);
+                                      })
                                 ],
                               ),
                             ); /*ListTile(
@@ -148,7 +153,13 @@ class App extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         MyItemGesture(
-                            textItem: "Nos Structures", itemPressed: () {}),
+                            textItem: "Nos Structures",
+                            itemPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StructuresPage()));
+                            }),
                         MyItemGesture(
                             textItem: "Mes rendez vous", itemPressed: () {})
                       ],
@@ -171,7 +182,13 @@ class App extends StatelessWidget {
                                     RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ))),
-                            pressed: () {}),
+                            pressed: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StructuresPage()));
+                            }),
                       ),
                     )
                   ],
