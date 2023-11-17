@@ -13,6 +13,7 @@ class ProviderCovid extends ChangeNotifier {
   static List<StructureDeSante> listStructures = [];
   Utilisateur? utilisateur = null;
   List<StructureXML> listStructuresXML = [];
+  String textAlert = "";
   void change_Visibility() {
     visibility = !visibility;
     notifyListeners();
@@ -26,6 +27,16 @@ class ProviderCovid extends ChangeNotifier {
       icon = Icon(Icons.visibility);
       notifyListeners();
     }
+  }
+
+  void incorrect_identifiant() {
+    textAlert = "email ou mot de passe incorrect";
+    notifyListeners();
+  }
+
+  void correct_identifiant() {
+    textAlert = "";
+    notifyListeners();
   }
 
   Future<List<StructureDeSante>> getStructures() async {
