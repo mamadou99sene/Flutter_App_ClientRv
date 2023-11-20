@@ -111,13 +111,12 @@ class loginPage extends StatelessWidget {
                     utilisateur = (await ProviderCovid()
                         .getUtilisateurs(email, password))!;
                     if (utilisateur != null) {
-                      String prenom = utilisateur.prenom;
-                      String nom = utilisateur.nom;
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  App(prenom: prenom, nom: nom)));
+                              builder: (context) => App(
+                                    utilisateur: utilisateur,
+                                  )));
                       provider.correct_identifiant();
                       /* Navigator.pushNamed(context, "/home",
                         arguments: utilisa eur);*/

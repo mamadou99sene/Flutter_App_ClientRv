@@ -1,4 +1,5 @@
 import 'package:client_covid/App.dart';
+import 'package:client_covid/models/Utilisateurs.dart';
 import 'package:client_covid/pages/Inscription.dart';
 import 'package:client_covid/pages/LoginPage.dart';
 import 'package:client_covid/pages/PriseRendezVous.dart';
@@ -18,7 +19,14 @@ class Home extends StatelessWidget {
         //home: App(),
         routes: {
           "/": (context) => loginPage(),
-          "/home": (context) => App(prenom: "prenom", nom: "nom"),
+          "/home": (context) => App(
+              utilisateur: Utilisateur(
+                  idUtilisateur: 0,
+                  prenom: "prenom",
+                  nom: "nom",
+                  email: "email",
+                  phone: "phone",
+                  password: "password")),
           "/inscription": (context) => Inscription(),
           "/rendezvous": (context) => PriseRendezVous(),
         },

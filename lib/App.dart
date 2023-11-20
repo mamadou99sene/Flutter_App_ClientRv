@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/models/StructureXML.dart';
+import 'package:client_covid/models/Utilisateurs.dart';
+import 'package:client_covid/pages/MyRvPage.dart';
 import 'package:client_covid/pages/StructuresPage.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:client_covid/widgets/InscriptionButton.dart';
@@ -14,11 +16,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
-  String prenom;
-  String nom;
+  Utilisateur utilisateur;
   App({
-    required this.prenom,
-    required this.nom,
+    required this.utilisateur,
   });
 
   @override
@@ -51,7 +51,7 @@ class App extends StatelessWidget {
             titleTextStyle:
                 const TextStyle(decoration: TextDecoration.underline),
           ),
-          drawer: MyDrawer(prenom: prenom, nom: nom),
+          drawer: MyDrawer(prenom: utilisateur.prenom, nom: utilisateur.nom),
           body: FutureBuilder(
             future: ProviderCovid().getStructuresXML(),
             builder: (context, snapshot) {
@@ -161,7 +161,14 @@ class App extends StatelessWidget {
                                       builder: (context) => StructuresPage()));
                             }),
                         MyItemGesture(
-                            textItem: "Mes rendez vous", itemPressed: () {})
+                            textItem: "Mes rendez vous",
+                            itemPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyRvPage(utilisateur: utilisateur)));
+                            })
                       ],
                     ),
                     Expanded(
