@@ -9,14 +9,13 @@ import 'package:client_covid/widgets/MyTextField.dart';
 import 'package:flutter/material.dart';
 
 class PriseRendezVous extends StatelessWidget {
-  StructureXML? structure = null;
-  Utilisateur? utilisateur = null;
+  late StructureXML structure;
   @override
   Widget build(BuildContext context) {
-    this.structure =
-        ModalRoute.of(context)!.settings.arguments as StructureXML?;
+    this.structure = ModalRoute.of(context)!.settings.arguments as StructureXML;
     TextEditingController controllerEmail = TextEditingController();
     TextEditingController controllerDate = TextEditingController();
+    Utilisateur utilisateur;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -119,9 +118,8 @@ class PriseRendezVous extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => App(
-                                            prenom: utilisateur!.prenom,
-                                            nom: utilisateur!.nom),
+                                        builder: (context) =>
+                                            App(utilisateur: utilisateur),
                                       ));
                                 },
                                 child: Text(
