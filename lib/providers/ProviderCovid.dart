@@ -10,7 +10,7 @@ import 'package:xml/xml.dart';
 class ProviderCovid extends ChangeNotifier {
   Icon icon = Icon(Icons.visibility);
   bool visibility = false;
-  static List<StructureDeSante> listStructures = [];
+  List<StructureDeSante> listStructures = [];
   Utilisateur? utilisateur = null;
   List<StructureXML> listStructuresXML = [];
   String textAlert = "";
