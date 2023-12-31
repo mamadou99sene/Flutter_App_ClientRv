@@ -7,6 +7,7 @@ import 'package:client_covid/pages/MyRvPage.dart';
 import 'package:client_covid/pages/StructuresPage.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:client_covid/widgets/InscriptionButton.dart';
+import 'package:client_covid/widgets/MyBottomNavMenu.dart';
 import 'package:client_covid/widgets/MyButtonStyle.dart';
 import 'package:client_covid/widgets/MyDrawer.dart';
 import 'package:client_covid/widgets/MyItemGesture.dart';
@@ -27,88 +28,92 @@ class App extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => ProviderCovid(),
         child: Scaffold(
-          appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Bienvenue",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal),
-                ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.logout))
-              ],
-            ),
-            backgroundColor: Colors.red[400],
-            elevation: 0,
-            centerTitle: true,
-            titleTextStyle:
-                const TextStyle(decoration: TextDecoration.underline),
-          ),
-          drawer: MyDrawer(prenom: utilisateur.prenom, nom: utilisateur.nom),
-          body: FutureBuilder(
-            future: ProviderCovid().getStructuresXML(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SpinKitHourGlass(
-                  color: Colors.red,
-                  size: 100,
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    "Connection error",
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Bienvenue",
                     style: TextStyle(
-                      color: Colors.red,
-                    ),
+                        fontSize: 30,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal),
                   ),
-                );
-              } else if (snapshot.hasData) {
-                print("OK");
-                List<StructureXML>? structures = snapshot.data;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 150,
-                      margin: EdgeInsets.all(5),
-                      color: Color.fromARGB(255, 251, 236, 237),
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount:
-                              (structures == null ? 0 : structures.length),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: 150,
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(5),
-                              color: Colors.red,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "${structures![index].capacite} places",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  MyButtonStyle(
-                                      text: structures![index].localisation,
-                                      pressed: () {
-                                        Navigator.pushNamed(
-                                            context, "/rendezvous",
-                                            arguments: structures[index]);
-                                      })
-                                ],
-                              ),
-                            ); /*ListTile(
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context, "/");
+                      },
+                      icon: const Icon(Icons.logout))
+                ],
+              ),
+              backgroundColor: Colors.red[400],
+              elevation: 0,
+              centerTitle: true,
+              titleTextStyle:
+                  const TextStyle(decoration: TextDecoration.underline),
+            ),
+            drawer: MyDrawer(
+              utilisateur: utilisateur,
+            ),
+            body: FutureBuilder(
+              future: ProviderCovid().getStructuresXML(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SpinKitHourGlass(
+                    color: Colors.red,
+                    size: 60,
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "Connection error",
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  print("OK");
+                  List<StructureXML>? structures = snapshot.data;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 150,
+                        margin: EdgeInsets.all(5),
+                        color: Color.fromARGB(255, 251, 236, 237),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                (structures == null ? 0 : structures.length),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: 150,
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.red),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "${structures![index].capacite} places",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    MyButtonStyle(
+                                        text: structures![index].localisation,
+                                        pressed: () {
+                                          Navigator.pushNamed(
+                                              context, "/rendezvous",
+                                              arguments: structures[index]);
+                                        })
+                                  ],
+                                ),
+                              ); /*ListTile(
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -128,83 +133,88 @@ class App extends StatelessWidget {
                                 ],
                               ),
                             );*/
-                          }),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Consulter nos fonctionnalités",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Icon(
-                          Icons.directions,
-                          color: Colors.red,
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        MyItemGesture(
-                            textItem: "Nos Structures",
-                            itemPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => StructuresPage()));
-                            }),
-                        MyItemGesture(
-                            textItem: "Mes rendez vous",
-                            itemPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MyRvPage(utilisateur: utilisateur)));
-                            })
-                      ],
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: InscriptionButton(
-                            child: Text(
-                              "Prendre un rendez vous",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ))),
-                            pressed: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => StructuresPage()));
                             }),
                       ),
-                    )
-                  ],
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
-        ));
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Consulter nos fonctionnalités",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Icon(
+                            Icons.directions,
+                            color: Colors.red,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          MyItemGesture(
+                              textItem: "Nos Structures",
+                              itemPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StructuresPage(
+                                              utilisateur: utilisateur,
+                                            )));
+                              }),
+                          MyItemGesture(
+                              textItem: "Mes rendez vous",
+                              itemPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyRvPage(
+                                            utilisateur: utilisateur)));
+                              })
+                        ],
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.bottomCenter,
+                          child: InscriptionButton(
+                              child: Text(
+                                "Prendre un rendez vous",
+                                style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ))),
+                              pressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StructuresPage(
+                                              utilisateur: utilisateur,
+                                            )));
+                              }),
+                        ),
+                      )
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+            bottomNavigationBar: MyBottomNavMenu(
+              utilisateur: utilisateur,
+            )));
   }
 }
