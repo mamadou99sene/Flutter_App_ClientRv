@@ -1,12 +1,13 @@
+import 'package:client_covid/App.dart';
+import 'package:client_covid/models/Utilisateurs.dart';
+import 'package:client_covid/pages/MyRvPage.dart';
 import 'package:client_covid/pages/StructuresPage.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
-  String prenom;
-  String nom;
+  Utilisateur utilisateur;
   MyDrawer({
-    required this.prenom,
-    required this.nom,
+    required this.utilisateur,
   });
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,12 @@ class MyDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircleAvatar(
+                  backgroundImage: AssetImage("images/logo.jpg"),
                   backgroundColor: Colors.red[300],
                   radius: 50,
                 ),
                 Text(
-                  "$prenom $nom",
+                  "${utilisateur.prenom} ${utilisateur.nom}",
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.italic,
@@ -39,7 +41,10 @@ class MyDrawer extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, "/home");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => App(utilisateur: utilisateur)));
           },
           leading: Icon(
             Icons.home,
@@ -61,6 +66,10 @@ class MyDrawer extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyRvPage(utilisateur: utilisateur)));
           },
           leading: Icon(
             Icons.meeting_room,
@@ -82,8 +91,12 @@ class MyDrawer extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => StructuresPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => StructuresPage(
+                          utilisateur: utilisateur,
+                        )));
           },
           leading: Icon(
             Icons.local_hospital,
