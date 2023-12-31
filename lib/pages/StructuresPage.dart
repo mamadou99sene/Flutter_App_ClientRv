@@ -1,12 +1,15 @@
 import 'package:client_covid/models/StructureDeSante.dart';
 import 'package:client_covid/models/StructureXML.dart';
+import 'package:client_covid/models/Utilisateurs.dart';
 import 'package:client_covid/providers/ProviderCovid.dart';
+import 'package:client_covid/widgets/MyBottomNavMenu.dart';
 import 'package:client_covid/widgets/MyButtonStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class StructuresPage extends StatelessWidget {
-  const StructuresPage({super.key});
+  Utilisateur utilisateur;
+  StructuresPage({required this.utilisateur});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class StructuresPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SpinKitHourGlass(
               color: Colors.red,
-              size: 100,
+              size: 60,
             );
           } else if (snapshot.hasError) {
             return Text(
@@ -147,7 +150,15 @@ class StructuresPage extends StatelessWidget {
                                               arguments: listStructures[index]);
                                         })
                                   ],
-                                )
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      print(listStructures[index].localisation);
+                                    },
+                                    icon: Icon(
+                                      Icons.location_on,
+                                      color: Colors.white,
+                                    ))
                               ],
                             ),
                           ); /*ListTile(
@@ -178,6 +189,7 @@ class StructuresPage extends StatelessWidget {
           }
         },
       ),
+      bottomNavigationBar: MyBottomNavMenu(utilisateur: utilisateur),
     );
   }
 }

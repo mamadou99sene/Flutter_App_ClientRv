@@ -19,7 +19,7 @@ class InscriptionButton extends StatelessWidget {
       padding: EdgeInsets.all(3),
       child: SizedBox(
         width: double.infinity,
-        height: 50,
+        height: 40,
         child: ElevatedButton(style: style, onPressed: pressed, child: child),
       ),
     );

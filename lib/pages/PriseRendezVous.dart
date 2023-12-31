@@ -2,11 +2,12 @@ import 'package:client_covid/App.dart';
 import 'package:client_covid/models/RendezVous.dart';
 import 'package:client_covid/models/StructureXML.dart';
 import 'package:client_covid/models/Utilisateurs.dart';
+import 'package:client_covid/providers/ProviderCovid.dart';
 import 'package:client_covid/repos/Repos.dart';
 import 'package:client_covid/widgets/InscriptionButton.dart';
-import 'package:client_covid/widgets/MyButtonStyle.dart';
 import 'package:client_covid/widgets/MyTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PriseRendezVous extends StatelessWidget {
   late StructureXML structure;
@@ -15,6 +16,7 @@ class PriseRendezVous extends StatelessWidget {
     this.structure = ModalRoute.of(context)!.settings.arguments as StructureXML;
     TextEditingController controllerEmail = TextEditingController();
     TextEditingController controllerDate = TextEditingController();
+
     Utilisateur utilisateur;
     return Scaffold(
       appBar: AppBar(
@@ -30,9 +32,19 @@ class PriseRendezVous extends StatelessWidget {
             alignment: Alignment.topCenter,
             padding: EdgeInsets.only(bottom: 20),
             child: Text(
-              "Prise de rendez vous à ${structure?.localisation}",
+              "Prise de rendez vous à ${structure.localisation}",
               style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
             ),
+          ),
+          Consumer<ProviderCovid>(
+            builder: (context, value, child) {
+              return Text(
+                "${value.textAlertPriseRV}",
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              );
+            },
           ),
           MyTextField(
               MyHintText: "Your email",
@@ -54,11 +66,9 @@ class PriseRendezVous extends StatelessWidget {
               obscure: false),
           InscriptionButton(
               child: Text(
-                "Confimer",
+                "Confirmer",
                 style: TextStyle(
-                    fontSize: 20,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w500),
+                    fontStyle: FontStyle.normal, fontWeight: FontWeight.w500),
               ),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red),
@@ -71,11 +81,13 @@ class PriseRendezVous extends StatelessWidget {
                 try {
                   rvDate = DateTime.parse(controllerDate.text);
                 } catch (e) {
+                  print("conversion impossible");
                   rvDate = DateTime.now();
                 }
                 if (emailUser.isNotEmpty && controllerDate.text.isNotEmpty) {
-                  utilisateur = await Repos().getUtilisateurByEmail(emailUser);
-                  if (utilisateur != null) {
+                  try {
+                    utilisateur =
+                        await Repos().getUtilisateurByEmail(emailUser);
                     RendezVous rendezVous = RendezVous(
                         idRendezVous: 0,
                         date: rvDate,
@@ -131,10 +143,17 @@ class PriseRendezVous extends StatelessWidget {
                               ),
                             );
                           });
+                      Provider.of<ProviderCovid>(context, listen: false)
+                          .alertIdentifiantRvSaisie();
                     }
-                  } else {
-                    print("utilisateur inexistant");
+                  } catch (e) {
+                    print(e);
+                    Provider.of<ProviderCovid>(context, listen: false)
+                        .alertEmailInexistant();
                   }
+                } else {
+                  Provider.of<ProviderCovid>(context, listen: false)
+                      .alertIdentifiantRv();
                 }
               })
         ]),

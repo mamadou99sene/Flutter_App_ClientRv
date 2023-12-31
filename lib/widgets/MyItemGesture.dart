@@ -9,9 +9,10 @@ class MyItemGesture extends StatelessWidget {
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.red),
         width: 160,
-        height: 200,
-        color: Colors.red,
+        height: 150,
         child: ElevatedButton(
           style: ButtonStyle(
               // elevation: MaterialStateProperty.all(0),
