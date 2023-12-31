@@ -39,14 +39,13 @@ class Repos {
       final prenom = user.findAllElements("prenom").first.text;
       final nom = user.findAllElements("nom").first.text;
       final telephone = user.findAllElements("phone").first.text;
-      final password = user.findAllElements("password").first.text;
       utilisateur = Utilisateur(
-          idUtilisateur: idUtilisateur,
-          prenom: prenom,
-          nom: nom,
-          email: email,
-          phone: telephone,
-          password: password);
+        idUtilisateur: idUtilisateur,
+        prenom: prenom,
+        nom: nom,
+        email: email,
+        phone: telephone,
+      );
     }
     print(utilisateur.phone);
     return utilisateur;
@@ -82,36 +81,39 @@ class Repos {
       DateTime heure = DateTime.parse(element.findElements("heure").first.text);
       final typeRendezVous = element.findElements("typerendezvous").first.text;
       final status = element.findElements("status").first.text;
+      XmlElement? userElement = element.findElements("utilisateur").firstOrNull;
       Utilisateur? utilisateur;
-      StructureXML? structureXML;
-      final userRv = document.findAllElements("utilisateur");
-      for (var user in userRv) {
+      if (userElement != null) {
         final idUtilisateur =
-            int.parse(user.findElements("idUtilisateur").first.text);
-        final email = user.findElements("email").first.text;
-        final prenom = user.findAllElements("prenom").first.text;
-        final nom = user.findAllElements("nom").first.text;
-        final telephone = user.findAllElements("phone").first.text;
-        final password = user.findAllElements("password").first.text;
+            int.parse(userElement.findElements("idUtilisateur").first.text);
+        final email = userElement.findElements("email").first.text;
+        final prenom = userElement.findAllElements("prenom").first.text;
+        final nom = userElement.findAllElements("nom").first.text;
+        final telephone = userElement.findAllElements("phone").first.text;
         utilisateur = Utilisateur(
-            idUtilisateur: idUtilisateur,
-            prenom: prenom,
-            nom: nom,
-            email: email,
-            phone: telephone,
-            password: password);
+          idUtilisateur: idUtilisateur,
+          prenom: prenom,
+          nom: nom,
+          email: email,
+          phone: telephone,
+        );
       }
-      final structures = document.findAllElements("structuredesante");
-      for (var element in structures) {
-        final capacite = int.parse(element.findElements('capacite').first.text);
-        String email = element.findElements('email').first.text;
-        final idStructuresante =
-            int.parse(element.findElements('idStructuresante').first.text);
-        String localisation = element.findElements('localisation').first.text;
-        String telephone = element.findElements('telephone').first.text;
+      XmlElement? structureElement =
+          element.findAllElements("structuredesante").firstOrNull;
+      StructureXML? structureXML;
+      if (structureElement != null) {
+        final capacite =
+            int.parse(structureElement.findElements('capacite').first.text);
+        String email = structureElement.findElements('email').first.text;
+        final idStructuresante = int.parse(
+            structureElement.findElements('idStructuresante').first.text);
+        String localisation =
+            structureElement.findElements('localisation').first.text;
+        String telephone =
+            structureElement.findElements('telephone').first.text;
         String typeTraitement =
-            element.findElements('typeTraitement').first.text;
-        String typetest = element.findElements('typetest').first.text;
+            structureElement.findElements('typeTraitement').first.text;
+        String typetest = structureElement.findElements('typetest').first.text;
         structureXML = StructureXML(
             idStructure: idStructuresante,
             localisation: localisation,

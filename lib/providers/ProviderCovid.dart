@@ -14,6 +14,8 @@ class ProviderCovid extends ChangeNotifier {
   Utilisateur? utilisateur = null;
   List<StructureXML> listStructuresXML = [];
   String textAlert = "";
+  String textAlertPriseRV = "";
+  Color color = Colors.grey;
   void change_Visibility() {
     visibility = !visibility;
     notifyListeners();
@@ -36,6 +38,26 @@ class ProviderCovid extends ChangeNotifier {
 
   void correct_identifiant() {
     textAlert = "";
+    notifyListeners();
+  }
+
+  void alertIdentifiantRv() {
+    textAlertPriseRV = "email ou date de rendez vous manquant";
+    notifyListeners();
+  }
+
+  void alertIdentifiantRvSaisie() {
+    textAlertPriseRV = "";
+    notifyListeners();
+  }
+
+  void alertEmailInexistant() {
+    textAlertPriseRV = "utilisateur inexistant, verifier votre email !!!";
+    notifyListeners();
+  }
+
+  void changeColorItemSelected() {
+    color = Colors.red;
     notifyListeners();
   }
 
@@ -103,7 +125,7 @@ class ProviderCovid extends ChangeNotifier {
       final prenom = user.findAllElements("prenom").first.text;
       final nom = user.findAllElements("nom").first.text;
       final telephone = user.findAllElements("phone").first.text;
-      final password = user.findAllElements("password").first.text;
+      //final password = user.findAllElements("password").first.text;
       utilisateur = Utilisateur(
           idUtilisateur: idUtilisateur,
           prenom: prenom,

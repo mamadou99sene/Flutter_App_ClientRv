@@ -4,14 +4,14 @@ class Utilisateur {
   late String nom;
   late String email;
   late String phone;
-  late String password;
+  String? password;
   Utilisateur(
       {required this.idUtilisateur,
       required this.prenom,
       required this.nom,
       required this.email,
       required this.phone,
-      required this.password});
+      this.password});
   Map<String, dynamic> toJson() {
     return {
       "idUtilisateur": idUtilisateur,

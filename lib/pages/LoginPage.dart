@@ -34,6 +34,7 @@ class loginPage extends StatelessWidget {
             return Text(
               "${value.textAlert}",
               style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
             );
           },
         ),
